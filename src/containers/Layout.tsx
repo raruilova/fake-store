@@ -7,7 +7,7 @@ interface Prop {
 export const Layout = ({ children }: Prop) => {
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-light bg-transparent">
         <div className="container-fluid">
           <button
             className="navbar-toggler"
@@ -21,14 +21,14 @@ export const Layout = ({ children }: Prop) => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <a className="navbar-brand" href="#">
+            <Link to="/" className="navbar-brand text-white">
               Fake Store
-            </a>
+            </Link>
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+                <Link to="/" className="nav-link active text-white" aria-current="page">
                   Home
-                </a>
+                </Link>
               </li>
             </ul>
             <div className="d-flex">
