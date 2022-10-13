@@ -1,21 +1,24 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Layout } from "../containers/Layout";
+import { AuthProvider } from "../context/auth/AuthProvider";
 import { Home } from "../pages/Home";
 import { Index } from "../pages/Index";
-import { Login } from "../pages/Login";
+import { LoginPage } from "../pages/LoginPage";
 
 export const App = () => {
   return (
     <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/login" element={<Login />} />
-        </Routes>
-        <Routes>
-          <Route path="/home" element={<Home />} />
-        </Routes>
-      </Layout>
+      <AuthProvider>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/login" element={<LoginPage />} />
+          </Routes>
+          <Routes>
+            <Route path="/home" element={<Home />} />
+          </Routes>
+        </Layout>
+      </AuthProvider>
     </BrowserRouter>
   );
 };
