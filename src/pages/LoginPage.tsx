@@ -1,5 +1,4 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { UserLogin } from "../interfaces/login";
 
@@ -8,22 +7,24 @@ export const LoginPage = () => {
     username: "",
     password: "",
   });
-  const navigate = useNavigate();
 
   const { login } = useAuth();
 
-  const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUser({
       ...user,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
-  }
+  };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+    if (user.username.trim() === "" || user.password === "") {
+      alert("Todos los campos son obligatorios");
+      return;
+    }
+
     login(user.username, user.password);
-    //navigate("/home");
   };
   return (
     <div className="container">
@@ -36,6 +37,7 @@ export const LoginPage = () => {
                 className="form-control"
                 id="floatingInput"
                 name="username"
+                value={user.username}
                 onChange={handleChange}
                 placeholder="name@example.com"
               />
@@ -50,6 +52,7 @@ export const LoginPage = () => {
                 type="password"
                 name="password"
                 className="form-control"
+                value={user.password}
                 id="floatingPassword"
                 onChange={handleChange}
                 placeholder="Password"

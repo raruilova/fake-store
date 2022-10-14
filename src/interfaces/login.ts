@@ -1,4 +1,4 @@
 export interface UserLogin {
-    username: "",
-    password: ""
+    username: string,
+    password: string
 }

@@ -3,7 +3,8 @@ import { UserToken } from "../../interfaces/token";
 
 interface AuthContextProps {
     token: UserToken,
-    login: (username:string, password:string) => void
+    login: (username:string, password:string) => void,
+    message: string
 }
 
 
