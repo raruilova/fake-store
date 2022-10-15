@@ -1,8 +1,10 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosClient } from "../../api/axiosClient";
+import { UserLogin } from "../../interfaces/login";
 import { UserToken } from "../../interfaces/token";
+import { User } from "../../interfaces/user";
 import { AuthContext } from "./authContext";
 
 interface Prop {
@@ -13,6 +15,7 @@ export const AuthProvider = ({ children }: Prop) => {
   const [token, setToken] = useState<UserToken>({
     token: "",
   });
+  const [userData, setUserData] = useState<User>({} as User);
   const [message, setMessage] = useState<string>("");
 
   const navigate = useNavigate();
@@ -36,8 +39,21 @@ export const AuthProvider = ({ children }: Prop) => {
     }
   };
 
+  const getUser = async () => {
+    try {
+      const { data } = await axiosClient.get<User>("/users/1");
+      setUserData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ token, login, message }}>
+    <AuthContext.Provider value={{ token, login, message, userData }}>
       {children}
     </AuthContext.Provider>
   );

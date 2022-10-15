@@ -1,10 +1,13 @@
 import { createContext } from "react";
+import { UserLogin } from "../../interfaces/login";
 import { UserToken } from "../../interfaces/token";
+import { User } from "../../interfaces/user";
 
 interface AuthContextProps {
     token: UserToken,
     login: (username:string, password:string) => void,
-    message: string
+    message: string,
+    userData: User
 }
 
 

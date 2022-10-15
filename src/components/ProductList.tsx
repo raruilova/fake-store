@@ -1,5 +1,5 @@
 import { useStore } from "../hooks/useStore";
-import { Products } from "../interfaces/products";
+import { Products } from "../interfaces/product";
 import { Modal } from "./Modal";
 
 interface Props {
