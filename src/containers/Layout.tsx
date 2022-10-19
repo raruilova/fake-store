@@ -1,16 +1,28 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useStore } from "../hooks/useStore";
+import { Products } from "../interfaces/product";
 
 interface Prop {
   children: JSX.Element | JSX.Element[];
 }
 
 export const Layout = ({ children }: Prop) => {
+  const [userProducts, setUserProducts] = useState<Products[]>([]);
   const { userData } = useAuth();
-  console.log(userData);
-  const { cartUser } = useStore();
-  
+  const { cartUser, products } = useStore();
+
+  const res = cartUser.flatMap((e) => e.products);
+  const result = res.map((e) => {
+    return products.filter((data) => data.id === e.productId);
+  });
+  const data = result.flat();
+
+  const handleClick = () => {
+    setUserProducts(data);
+  };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-transparent">
@@ -51,8 +63,9 @@ export const Layout = ({ children }: Prop) => {
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasRight"
                 aria-controls="offcanvasRight"
+                onClick={handleClick}
               >
-                Toggle right offcanvas
+                Cart
               </button>
             </div>
           </div>
@@ -66,7 +79,7 @@ export const Layout = ({ children }: Prop) => {
       >
         <div className="offcanvas-header">
           <h5 className="offcanvas-title" id="offcanvasRightLabel">
-            Offcanvas right
+            Products
           </h5>
           <button
             type="button"
@@ -75,7 +88,21 @@ export const Layout = ({ children }: Prop) => {
             aria-label="Close"
           ></button>
         </div>
-        <div className="offcanvas-body">...</div>
+        <div className="offcanvas-body">
+          <ul className="list-group">
+            {userProducts.map((product, index) => (
+              <div key={product.id + `${index}fr`}>
+                <li
+                  className="list-group-item d-flex justify-content-between align-items-center"
+                  key={product.id}
+                >
+                  {product.title}
+                  <span className="badge bg-primary rounded-pill">14</span>
+                </li>
+              </div>
+            ))}
+          </ul>
+        </div>
       </div>
     </>
   );
