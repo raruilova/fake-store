@@ -11,7 +11,7 @@ interface Prop {
 export const Layout = ({ children }: Prop) => {
   const [userProducts, setUserProducts] = useState<Products[]>([]);
   const { userData } = useAuth();
-  const { cartUser, products } = useStore();
+  const { cartUser, products, categories, getProductCategory } = useStore();
 
   const res = cartUser.flatMap((e) => e.products);
   const result = res.map((e) => {
@@ -21,6 +21,10 @@ export const Layout = ({ children }: Prop) => {
 
   const handleClick = () => {
     setUserProducts(data);
+  };
+
+  const handleClickCategory = (category: string) => {
+    getProductCategory(category);
   };
 
   return (
@@ -52,6 +56,29 @@ export const Layout = ({ children }: Prop) => {
                   Home
                 </Link>
               </li>
+              <div className="dropdown">
+                <button
+                  className="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Categories
+                </button>
+                <ul className="dropdown-menu">
+                  {categories.map((category) => (
+                    <li key={category}>
+                      <button
+                        className="dropdown-item"
+                        type="button"
+                        onClick={() => handleClickCategory(category)}
+                      >
+                        {category}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </ul>
             <div className="d-flex">
               <Link to="/login" className="me-2 btn btn-primary">

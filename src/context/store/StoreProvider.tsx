@@ -12,10 +12,15 @@ export const StoreProvider = ({ children }: Prop) => {
   const [products, setProducts] = useState<Products[]>([]);
   const [showProduct, setShowProduct] = useState<Products>({} as Products);
   const [cartUser, setCartUser] = useState<Cart[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
 
   const getAllProducts = async () => {
-    const { data } = await axiosClient.get<Products[]>("/products");
-    setProducts(data);
+    try {
+      const { data } = await axiosClient.get<Products[]>("/products");
+      setProducts(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const seeProduct = (product: Products) => {
@@ -23,8 +28,32 @@ export const StoreProvider = ({ children }: Prop) => {
   };
 
   const getUserCar = async () => {
-    const { data } = await axiosClient.get<Cart[]>("/carts/user/1");
-    setCartUser(data);
+    try {
+      const { data } = await axiosClient.get<Cart[]>("/carts/user/1");
+      setCartUser(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getAllCategories = async () => {
+    try {
+      const { data } = await axiosClient.get<string[]>("/products/categories");
+      setCategories(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getProductCategory = async (category: string) => {
+    try {
+      const { data } = await axiosClient.get<Products[]>(
+        `/products/category/${category}`
+      );
+      setProducts(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   /*const getUserProduct = () => {
@@ -48,6 +77,7 @@ export const StoreProvider = ({ children }: Prop) => {
   useEffect(() => {
     getAllProducts();
     getUserCar();
+    getAllCategories();
   }, []);
   return (
     <StoreContext.Provider
@@ -55,7 +85,9 @@ export const StoreProvider = ({ children }: Prop) => {
         products,
         showProduct,
         cartUser,
+        categories,
         seeProduct,
+        getProductCategory,
       }}
     >
       {children}

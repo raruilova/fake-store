@@ -6,7 +6,9 @@ interface StoreContextProps {
     products: Products[],
     showProduct: Products,
     cartUser: Cart[],
+    categories: string[],
     seeProduct: (product:Products) => void,
+    getProductCategory: (category:string) => void
 
 }
 
