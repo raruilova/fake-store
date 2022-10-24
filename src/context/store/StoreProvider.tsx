@@ -13,6 +13,7 @@ export const StoreProvider = ({ children }: Prop) => {
   const [showProduct, setShowProduct] = useState<Products>({} as Products);
   const [cartUser, setCartUser] = useState<Cart[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
+  const [userProducts, setUserProducts] = useState<Products[]>([]);
 
   const getAllProducts = async () => {
     try {
@@ -56,6 +57,14 @@ export const StoreProvider = ({ children }: Prop) => {
     }
   };
 
+  const userCartProducts = (data:Products[]) => {
+    setUserProducts(data);
+  };
+
+  const addProduct = (product:Products) => {
+    setUserProducts([...userProducts, product]);
+  }
+
   /*const getUserProduct = () => {
     const arr:Array<Products> = [];
     try {
@@ -86,8 +95,11 @@ export const StoreProvider = ({ children }: Prop) => {
         showProduct,
         cartUser,
         categories,
+        userProducts,
         seeProduct,
         getProductCategory,
+        userCartProducts,
+        addProduct
       }}
     >
       {children}

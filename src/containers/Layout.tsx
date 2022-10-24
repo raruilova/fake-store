@@ -9,19 +9,21 @@ interface Prop {
 }
 
 export const Layout = ({ children }: Prop) => {
-  const [userProducts, setUserProducts] = useState<Products[]>([]);
   const { userData } = useAuth();
-  const { cartUser, products, categories, getProductCategory } = useStore();
+  const {
+    cartUser,
+    products,
+    categories,
+    userProducts,
+    userCartProducts,
+    getProductCategory,
+  } = useStore();
 
   const res = cartUser.flatMap((e) => e.products);
   const result = res.map((e) => {
     return products.filter((data) => data.id === e.productId);
   });
   const data = result.flat();
-
-  const handleClick = () => {
-    setUserProducts(data);
-  };
 
   const handleClickCategory = (category: string) => {
     getProductCategory(category);
@@ -90,7 +92,7 @@ export const Layout = ({ children }: Prop) => {
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasRight"
                 aria-controls="offcanvasRight"
-                onClick={handleClick}
+                onClick={() => userCartProducts(data)}
               >
                 Cart
               </button>
@@ -105,9 +107,11 @@ export const Layout = ({ children }: Prop) => {
         aria-labelledby="offcanvasRightLabel"
       >
         <div className="offcanvas-header">
-          <h5 className="offcanvas-title" id="offcanvasRightLabel">
-            Products
-          </h5>
+          <div className="container">
+            <h5 className="offcanvas-title" id="offcanvasRightLabel">
+              Products
+            </h5>
+          </div>
           <button
             type="button"
             className="btn-close"
