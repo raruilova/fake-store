@@ -1,5 +1,4 @@
 import { createContext } from "react";
-import { UserLogin } from "../../interfaces/login";
 import { UserToken } from "../../interfaces/token";
 import { User } from "../../interfaces/user";
 

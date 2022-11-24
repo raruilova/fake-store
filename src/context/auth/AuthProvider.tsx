@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosClient } from "../../api/axiosClient";
-import { UserLogin } from "../../interfaces/login";
 import { UserToken } from "../../interfaces/token";
 import { User } from "../../interfaces/user";
 import { AuthContext } from "./authContext";

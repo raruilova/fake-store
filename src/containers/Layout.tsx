@@ -1,15 +1,13 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useStore } from "../hooks/useStore";
-import { Products } from "../interfaces/product";
 
 interface Prop {
   children: JSX.Element | JSX.Element[];
 }
 
 export const Layout = ({ children }: Prop) => {
-  const { userData } = useAuth();
+  
   const {
     cartUser,
     products,
