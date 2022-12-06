@@ -1,13 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useStore } from "../hooks/useStore";
+import { UserToken } from "../interfaces/token";
 
 interface Prop {
   children: JSX.Element | JSX.Element[];
 }
 
 export const Layout = ({ children }: Prop) => {
-  
   const {
     cartUser,
     products,
@@ -17,6 +17,9 @@ export const Layout = ({ children }: Prop) => {
     getProductCategory,
   } = useStore();
 
+  const { token } = useAuth();
+  const navigate = useNavigate();
+
   const res = cartUser.flatMap((e) => e.products);
   const result = res.map((e) => {
     return products.filter((data) => data.id === e.productId);
@@ -25,6 +28,14 @@ export const Layout = ({ children }: Prop) => {
 
   const handleClickCategory = (category: string) => {
     getProductCategory(category);
+  };
+
+  const userToken = localStorage.getItem("token");
+
+  console.log(userToken);
+
+  const handleLogout = () => {
+    navigate("/");
   };
 
   return (
@@ -56,47 +67,60 @@ export const Layout = ({ children }: Prop) => {
                   Home
                 </Link>
               </li>
-              <div className="dropdown">
-                <button
-                  className="btn btn-secondary dropdown-toggle"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Categories
-                </button>
-                <ul className="dropdown-menu">
-                  {categories.map((category) => (
-                    <li key={category}>
-                      <button
-                        className="dropdown-item"
-                        type="button"
-                        onClick={() => handleClickCategory(category)}
-                      >
-                        {category}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {!token.token && (
+                <div className="dropdown">
+                  <button
+                    className="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Categories
+                  </button>
+                  <ul className="dropdown-menu">
+                    {categories.map((category) => (
+                      <li key={category}>
+                        <button
+                          className="dropdown-item"
+                          type="button"
+                          onClick={() => handleClickCategory(category)}
+                        >
+                          {category}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </ul>
             <div className="d-flex">
-              <Link to="/login" className="me-2 btn btn-primary">
-                Login
-              </Link>
-              <Link to="/login" className="me-2 btn btn-primary">
-                Sign In
-              </Link>
-              <button
-                className="btn btn-primary"
-                type="button"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasRight"
-                aria-controls="offcanvasRight"
-                onClick={() => userCartProducts(data)}
-              >
-                Cart
-              </button>
+              {token.token ? (
+                <>
+                  <Link to="/login" className="me-2 btn btn-primary">
+                    Login
+                  </Link>
+                  <Link to="/sigin" className="me-2 btn btn-primary">
+                    Sign In
+                  </Link>
+                </>
+              ) : (
+                <button className="me-2 btn btn-primary" onClick={handleLogout}>
+                  Logout
+                </button>
+              )}
+
+              {!token.token && (
+                <button
+                  className="btn btn-primary"
+                  type="button"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasRight"
+                  aria-controls="offcanvasRight"
+                  onClick={() => userCartProducts(data)}
+                >
+                  Cart
+                </button>
+              )}
             </div>
           </div>
         </div>

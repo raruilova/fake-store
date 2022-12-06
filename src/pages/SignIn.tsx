@@ -1,9 +1,11 @@
 import { ChangeEvent, FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import { User } from "../interfaces/user";
 
 export const SignIn = () => {
   const [user, setUser] = useState<User>({} as User);
+  const navigate = useNavigate();
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUser({
       ...user,
@@ -15,14 +17,18 @@ export const SignIn = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if(username.trim() === "" || email.trim() === "" || password.trim() === "") {
-        //swal("Error!", "All the inputs are required!", "warning");
-        alert("dasdasdasd");
-        return;
+    if (
+      username.trim() === "" ||
+      email.trim() === "" ||
+      password.trim() === ""
+    ) {
+      swal("Error!", "All the inputs are required!", "warning");
+      return;
     }
-    
-    swal("God Job!","You have been registered!", "success");
+
+    swal("God Job!", "You have been registered!", "success");
     setUser({} as User);
+    navigate("/home");
   };
   return (
     <div className="container">
@@ -37,6 +43,7 @@ export const SignIn = () => {
                 name="username"
                 value={user.username}
                 onChange={handleChange}
+                required
                 placeholder="Joel Salvatierra"
               />
               <label htmlFor="floatingInput">Username</label>
@@ -53,6 +60,7 @@ export const SignIn = () => {
                 name="email"
                 value={user.email}
                 onChange={handleChange}
+                required
                 placeholder="name@example.com"
               />
               <label htmlFor="floatingInput">Email address</label>
@@ -69,6 +77,7 @@ export const SignIn = () => {
                 value={user.password}
                 id="floatingPassword"
                 onChange={handleChange}
+                required
                 placeholder="******"
               />
               <label htmlFor="floatingPassword">Password</label>

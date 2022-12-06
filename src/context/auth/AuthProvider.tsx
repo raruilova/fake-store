@@ -28,10 +28,10 @@ export const AuthProvider = ({ children }: Prop) => {
       setToken({
         token: data.token,
       });
+      localStorage.setItem("token", token.token);
       navigate("/home");
-
     } catch (error) {
-      if(axios.isAxiosError(error)) {
+      if (axios.isAxiosError(error)) {
         setMessage(error.response?.data);
         alert(error.response?.data);
       }
@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }: Prop) => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     getUser();
