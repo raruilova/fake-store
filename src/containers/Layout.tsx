@@ -84,6 +84,9 @@ export const Layout = ({ children }: Prop) => {
               <Link to="/login" className="me-2 btn btn-primary">
                 Login
               </Link>
+              <Link to="/login" className="me-2 btn btn-primary">
+                Sign In
+              </Link>
               <button
                 className="btn btn-primary"
                 type="button"
