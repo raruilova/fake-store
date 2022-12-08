@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useStore } from "../hooks/useStore";
-import { UserToken } from "../interfaces/token";
 
 interface Prop {
   children: JSX.Element | JSX.Element[];
@@ -36,6 +35,8 @@ export const Layout = ({ children }: Prop) => {
 
   const handleLogout = () => {
     navigate("/");
+    localStorage.removeItem("token");
+    window.location.reload();
   };
 
   return (
@@ -67,7 +68,7 @@ export const Layout = ({ children }: Prop) => {
                   Home
                 </Link>
               </li>
-              {!token.token && (
+              {token.token && (
                 <div className="dropdown">
                   <button
                     className="btn btn-secondary dropdown-toggle"
@@ -94,7 +95,7 @@ export const Layout = ({ children }: Prop) => {
               )}
             </ul>
             <div className="d-flex">
-              {token.token ? (
+              {!token.token ? (
                 <>
                   <Link to="/login" className="me-2 btn btn-primary">
                     Login
@@ -109,7 +110,7 @@ export const Layout = ({ children }: Prop) => {
                 </button>
               )}
 
-              {!token.token && (
+              {token.token && (
                 <button
                   className="btn btn-primary"
                   type="button"
