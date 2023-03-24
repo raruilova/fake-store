@@ -1,5 +1,9 @@
+import { Home } from "./Home"
+
 export const Index = () => {
     return (
-        <h1>home</h1>
+        <>
+        <Home />
+        </> 
     )
 }

@@ -11,7 +11,7 @@ interface StoreContextProps {
     seeProduct: (product:Products) => void,
     getProductCategory: (category:string) => void,
     userCartProducts: (data:Products[]) => void,
-    addProduct: (product: Products) => void
+    addProduct: (product: Products) => void,
 
 }
 

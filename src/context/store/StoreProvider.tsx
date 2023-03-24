@@ -17,8 +17,8 @@ export const StoreProvider = ({ children }: Prop) => {
 
   const getAllProducts = async () => {
     try {
-      const { data } = await axiosClient.get<Products[]>("/products");
-      setProducts(data);
+      const { data } = await axiosClient.get<Products[]>("/products?offset=10&limit=10");
+      setProducts(data);     
     } catch (error) {
       console.log(error);
     }

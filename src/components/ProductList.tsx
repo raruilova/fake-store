@@ -14,7 +14,7 @@ export const ProductList = ({ product }: Props) => {
       <div className="col md-6">
         <div className="card h-100 bg-light">
           <img
-            src={product.image}
+            src={product.category.image}
             className="img-fluid"
             style={{
               height: "270px",
@@ -24,7 +24,7 @@ export const ProductList = ({ product }: Props) => {
           <div className="card-body">
             <h5 className="card-title">{product.title}</h5>
             <p className="card-text">{`$${product.price}`}</p>
-            <p className="card-text">{product.category}</p>
+            <p className="card-text">{product.category.name}</p>
           </div>
           <button
             type="button"
@@ -36,12 +36,12 @@ export const ProductList = ({ product }: Props) => {
             More..
           </button>
 
-          <button
+          {/*<button
             className="btn btn-secondary mx-5 mb-2"
             onClick={() => addProduct(product)}
           >
             Add
-          </button>
+          </button> */}
         </div>
       </div>
       <Modal />
