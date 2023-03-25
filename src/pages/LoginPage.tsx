@@ -4,7 +4,7 @@ import { UserLogin } from "../interfaces/login";
 
 export const LoginPage = () => {
   const [user, setUser] = useState<UserLogin>({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -19,12 +19,7 @@ export const LoginPage = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (user.username.trim() === "" || user.password === "") {
-      alert("Todos los campos son obligatorios");
-      return;
-    }
-
-    login(user.username, user.password);
+    login(user.email, user.password);
   };
   return (
     <div className="container">
@@ -33,13 +28,14 @@ export const LoginPage = () => {
           <div className="col-md-6 ">
             <div className="form-floating mb-3">
               <input
-                type="text"
+                type="email"
                 className="form-control"
                 id="floatingInput"
-                name="username"
-                value={user.username}
+                name="email"
+                defaultValue={user.email}
                 onChange={handleChange}
                 placeholder="name@example.com"
+                required
               />
               <label htmlFor="floatingInput">Email address</label>
             </div>
@@ -52,10 +48,11 @@ export const LoginPage = () => {
                 type="password"
                 name="password"
                 className="form-control"
-                value={user.password}
+                defaultValue={user.password}
                 id="floatingPassword"
                 onChange={handleChange}
                 placeholder="Password"
+                required
               />
               <label htmlFor="floatingPassword">Password</label>
             </div>

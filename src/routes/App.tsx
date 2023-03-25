@@ -23,7 +23,6 @@ export const App = () => {
           </Routes>
         </Layout>
         </StoreProvider>
-        
       </AuthProvider>
     </BrowserRouter>
   );

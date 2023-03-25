@@ -11,29 +11,23 @@ interface Prop {
 }
 
 export const AuthProvider = ({ children }: Prop) => {
-  const [token, setToken] = useState<UserToken>({
-    token: "",
-  });
   const [userData, setUserData] = useState<User>({} as User);
   const [message, setMessage] = useState<string>("");
 
   const navigate = useNavigate();
 
-  const login = async (username: string, password: string) => {
+  const login = async (email: string, password: string) => {
     try {
       const { data } = await axiosClient.post<UserToken>("/auth/login", {
-        username,
+        email,
         password,
       });
-      setToken({
-        token: data.token,
-      });
-      localStorage.setItem("token", token.token);
+      localStorage.setItem("token", JSON.stringify(data.access_token));
       navigate("/home");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setMessage(error.response?.data);
-        alert(error.response?.data);
+        console.log(error.response?.data);
       }
     }
   };
@@ -52,7 +46,7 @@ export const AuthProvider = ({ children }: Prop) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ token, login, message, userData }}>
+    <AuthContext.Provider value={{ login, message, userData }}>
       {children}
     </AuthContext.Provider>
   );

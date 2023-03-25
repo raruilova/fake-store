@@ -8,7 +8,7 @@ interface Props {
 
 export const ProductList = ({ product }: Props) => {
   const { seeProduct } = useStore();
-  const { addProduct } = useStore();
+  const userToken = localStorage.getItem("token");
   return (
     <>
       <div className="col md-6">
@@ -36,12 +36,9 @@ export const ProductList = ({ product }: Props) => {
             More..
           </button>
 
-          {/*<button
-            className="btn btn-secondary mx-5 mb-2"
-            onClick={() => addProduct(product)}
-          >
-            Add
-          </button> */}
+          {userToken && (
+            <button className="btn btn-secondary mx-5 mb-2">Add</button>
+          )}
         </div>
       </div>
       <Modal />

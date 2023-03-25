@@ -8,8 +8,8 @@ interface Prop {
 
 export const Layout = ({ children }: Prop) => {
   const { categories, getProductCategory } = useStore();
+  const { userData } = useAuth();
 
-  const { token } = useAuth();
   const navigate = useNavigate();
 
   const handleClickCategory = (category: number) => {
@@ -17,8 +17,6 @@ export const Layout = ({ children }: Prop) => {
   };
 
   const userToken = localStorage.getItem("token");
-
-  console.log(userToken);
 
   const handleLogout = () => {
     navigate("/");
@@ -80,6 +78,67 @@ export const Layout = ({ children }: Prop) => {
                 </ul>
               </div>
             </ul>
+            <div className="d-flex">
+              {!userToken ? (
+                <>
+                  <Link to="/login" className="me-2 btn btn-primary">
+                    Login
+                  </Link>
+                  <Link to="/sigin" className="me-2 btn btn-primary">
+                    Sign Up
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <div className="dropstart me-2 ">
+                    <button
+                      className="btn btn-secondary dropdown-toggle"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <img
+                        className="img-fluid rounded-circle"
+                        style={{
+                          height: "30px",
+                        }}
+                        src={userData.avatar}
+                        alt={userData.name}
+                      />
+                    </button>
+                    <ul className="dropdown-menu">
+                      <li>
+                        <div className="card">
+                          <div className="card-body">
+                            <span>Hi!</span> {userData.name}
+                            <p>{userData.email}</p>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <a className="dropdown-item">
+                          Your acount
+                        </a>
+                      </li>
+                      <li>
+                        <a className="dropdown-item">
+                          Cart
+                        </a>
+                      </li>
+                      <li>
+                        <Link
+                          to="/"
+                          className="ms-3 btn btn-secondary"
+                          onClick={() => handleLogout()}
+                        >
+                          Logout
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </nav>
