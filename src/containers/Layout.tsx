@@ -7,25 +7,12 @@ interface Prop {
 }
 
 export const Layout = ({ children }: Prop) => {
-  const {
-    cartUser,
-    products,
-    categories,
-    userProducts,
-    userCartProducts,
-    getProductCategory,
-  } = useStore();
+  const { categories, getProductCategory } = useStore();
 
   const { token } = useAuth();
   const navigate = useNavigate();
 
-  const res = cartUser.flatMap((e) => e.products);
-  const result = res.map((e) => {
-    return products.filter((data) => data.id === e.productId);
-  });
-  const data = result.flat();
-
-  const handleClickCategory = (category: string) => {
+  const handleClickCategory = (category: number) => {
     getProductCategory(category);
   };
 
@@ -68,61 +55,31 @@ export const Layout = ({ children }: Prop) => {
                   Home
                 </Link>
               </li>
-              {token.token && (
-                <div className="dropdown">
-                  <button
-                    className="btn btn-secondary dropdown-toggle"
-                    type="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Categories
-                  </button>
-                  <ul className="dropdown-menu">
-                    {categories.map((category) => (
-                      <li key={category}>
-                        <button
-                          className="dropdown-item"
-                          type="button"
-                          onClick={() => handleClickCategory(category)}
-                        >
-                          {category}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </ul>
-            <div className="d-flex">
-              {!token.token ? (
-                <>
-                  <Link to="/login" className="me-2 btn btn-primary">
-                    Login
-                  </Link>
-                  <Link to="/sigin" className="me-2 btn btn-primary">
-                    Sign In
-                  </Link>
-                </>
-              ) : (
-                <button className="me-2 btn btn-primary" onClick={handleLogout}>
-                  Logout
-                </button>
-              )}
 
-              {token.token && (
+              <div className="dropdown">
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-secondary dropdown-toggle"
                   type="button"
-                  data-bs-toggle="offcanvas"
-                  data-bs-target="#offcanvasRight"
-                  aria-controls="offcanvasRight"
-                  onClick={() => userCartProducts(data)}
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
                 >
-                  Cart
+                  Categories
                 </button>
-              )}
-            </div>
+                <ul className="dropdown-menu">
+                  {categories.map((category) => (
+                    <li key={category.id}>
+                      <button
+                        className="dropdown-item"
+                        type="button"
+                        onClick={() => handleClickCategory(category.id)}
+                      >
+                        {category.name}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </ul>
           </div>
         </div>
       </nav>
@@ -145,7 +102,7 @@ export const Layout = ({ children }: Prop) => {
             aria-label="Close"
           ></button>
         </div>
-        <div className="offcanvas-body">
+        {/*<div className="offcanvas-body">
           <ul className="list-group">
             {userProducts.map((product, index) => (
               <div key={product.id + `${index}fr`}>
@@ -159,7 +116,7 @@ export const Layout = ({ children }: Prop) => {
               </div>
             ))}
           </ul>
-        </div>
+            </div>*/}
       </div>
     </>
   );

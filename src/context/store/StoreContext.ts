@@ -1,15 +1,15 @@
 import { createContext } from "react";
 import { Cart } from "../../interfaces/cart";
-import { Products } from "../../interfaces/product";
+import { Category, Products } from "../../interfaces/product";
 
 interface StoreContextProps {
     products: Products[],
     showProduct: Products,
     cartUser: Cart[],
-    categories: string[],
+    categories: Category[],
     userProducts: Products[],
     seeProduct: (product:Products) => void,
-    getProductCategory: (category:string) => void,
+    getProductCategory: (category:number) => void,
     userCartProducts: (data:Products[]) => void,
     addProduct: (product: Products) => void,
 

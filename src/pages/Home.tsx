@@ -3,6 +3,7 @@ import { useStore } from "../hooks/useStore";
 
 export const Home = () => {
   const { products } = useStore();
+  console.log(products);
   
   return (
     <div className="container mt-5">

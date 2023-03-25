@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { axiosClient } from "../../api/axiosClient";
 import { Cart } from "../../interfaces/cart";
-import { Products } from "../../interfaces/product";
+import { Category, Products } from "../../interfaces/product";
 import { StoreContext } from "./StoreContext";
 
 interface Prop {
@@ -12,7 +12,7 @@ export const StoreProvider = ({ children }: Prop) => {
   const [products, setProducts] = useState<Products[]>([]);
   const [showProduct, setShowProduct] = useState<Products>({} as Products);
   const [cartUser, setCartUser] = useState<Cart[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [userProducts, setUserProducts] = useState<Products[]>([]);
 
   const getAllProducts = async () => {
@@ -28,28 +28,19 @@ export const StoreProvider = ({ children }: Prop) => {
     setShowProduct(product);
   };
 
-  const getUserCar = async () => {
-    try {
-      const { data } = await axiosClient.get<Cart[]>("/carts/user/1");
-      setCartUser(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const getAllCategories = async () => {
     try {
-      const { data } = await axiosClient.get<string[]>("/products/categories");
+      const { data } = await axiosClient.get<Category[]>("/categories");
       setCategories(data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const getProductCategory = async (category: string) => {
+  const getProductCategory = async (category: number) => {
     try {
       const { data } = await axiosClient.get<Products[]>(
-        `/products/category/${category}`
+        `/categories/${category}/products`
       );
       setProducts(data);
     } catch (error) {
@@ -85,7 +76,6 @@ export const StoreProvider = ({ children }: Prop) => {
 
   useEffect(() => {
     getAllProducts();
-    getUserCar();
     getAllCategories();
   }, []);
   return (
