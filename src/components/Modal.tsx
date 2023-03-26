@@ -15,12 +15,6 @@ export const Modal = () => {
             <h1 className="modal-title fs-5 text-white" id="exampleModalLabel">
               {showProduct.title}
             </h1>
-            <button
-              type="button"
-              className="btn-close text-white"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
           </div>
           <div className="modal-body">
             <p className="text-white">{showProduct.description}</p>

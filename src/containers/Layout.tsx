@@ -26,7 +26,7 @@ export const Layout = ({ children }: Prop) => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-transparent">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
           <button
             className="navbar-toggler"
@@ -90,9 +90,9 @@ export const Layout = ({ children }: Prop) => {
                 </>
               ) : (
                 <>
-                  <div className="dropstart me-2 ">
+                  <div className="dropdown-center me-2 ">
                     <button
-                      className="btn btn-secondary dropdown-toggle"
+                      className="btn btn-secondary btn-sm dropdown-toggle"
                       type="button"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
@@ -100,13 +100,13 @@ export const Layout = ({ children }: Prop) => {
                       <img
                         className="img-fluid rounded-circle"
                         style={{
-                          height: "30px",
+                          height: "25px",
                         }}
                         src={userData.avatar}
                         alt={userData.name}
                       />
                     </button>
-                    <ul className="dropdown-menu">
+                    <ul className="dropdown-menu dropdown-menu-lg-end">
                       <li>
                         <div className="card">
                           <div className="card-body">
@@ -116,14 +116,10 @@ export const Layout = ({ children }: Prop) => {
                         </div>
                       </li>
                       <li>
-                        <a className="dropdown-item">
-                          Your acount
-                        </a>
+                        <Link to="/profile" className="dropdown-item">Your acount</Link>
                       </li>
                       <li>
-                        <a className="dropdown-item">
-                          Cart
-                        </a>
+                        <a className="dropdown-item">Cart</a>
                       </li>
                       <li>
                         <Link
