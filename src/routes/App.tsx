@@ -5,6 +5,7 @@ import { StoreProvider } from "../context/store/StoreProvider";
 import { Home } from "../pages/Home";
 import { Index } from "../pages/Index";
 import { LoginPage } from "../pages/LoginPage";
+import { Profile } from "../pages/Profile";
 import { SignIn } from "../pages/SignIn";
 
 export const App = () => {
@@ -20,6 +21,7 @@ export const App = () => {
           </Routes>
           <Routes>
             <Route path="/home" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </Layout>
         </StoreProvider>

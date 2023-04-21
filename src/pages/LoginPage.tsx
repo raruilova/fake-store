@@ -8,7 +8,7 @@ export const LoginPage = () => {
     password: "",
   });
 
-  const { login } = useAuth();
+  const { login, message } = useAuth();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUser({
@@ -19,7 +19,15 @@ export const LoginPage = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if ([user.email, user.password].includes("")) {
+      alert("Write your username or your password");
+      return;
+    }
+
     login(user.email, user.password);
+    if (message === "Unauthorized") {
+      alert("Incorrect Password");
+    }
   };
   return (
     <div className="container">

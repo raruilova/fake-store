@@ -26,9 +26,9 @@ export const AuthProvider = ({ children }: Prop) => {
       navigate("/home");
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        setMessage(error.response?.data);
-        console.log(error.response?.data);
+        setMessage(error.response?.data.message);
       }
+      setMessage("");
     }
   };
 
