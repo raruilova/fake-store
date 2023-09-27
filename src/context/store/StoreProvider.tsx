@@ -3,6 +3,7 @@ import { axiosClient } from "../../api/axiosClient";
 import { Cart } from "../../interfaces/cart";
 import { Category, Products } from "../../interfaces/product";
 import { StoreContext } from "./StoreContext";
+import swal from "sweetalert";
 
 interface Prop {
   children: JSX.Element | JSX.Element[];
@@ -54,6 +55,30 @@ export const StoreProvider = ({ children }: Prop) => {
 
   const addProduct = (product:Products) => {
     setUserProducts([...userProducts, product]);
+    swal("Good job!", "Your product has been added to your cart!", "success");
+  }
+
+  const deleteProductCart = (id:number) => {
+    const newProducts:Products[] = userProducts.filter(product => product.id != id);
+
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this imaginary file!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        swal("Poof! Your product has been deleted!", {
+          icon: "success",
+        });
+        setUserProducts(newProducts);
+      } else {
+        swal("Your product is safe!");
+      }
+    });
+    
   }
 
   /*const getUserProduct = () => {
@@ -89,7 +114,8 @@ export const StoreProvider = ({ children }: Prop) => {
         seeProduct,
         getProductCategory,
         userCartProducts,
-        addProduct
+        addProduct,
+        deleteProductCart
       }}
     >
       {children}

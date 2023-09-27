@@ -1,3 +1,4 @@
+import { useAuth } from "../hooks/useAuth";
 import { useStore } from "../hooks/useStore";
 import { Products } from "../interfaces/product";
 import { Modal } from "./Modal";
@@ -7,8 +8,12 @@ interface Props {
 }
 
 export const ProductList = ({ product }: Props) => {
-  const { seeProduct } = useStore();
-  const userToken = localStorage.getItem("token");
+  const { seeProduct, addProduct, userProducts, deleteProductCart } =
+    useStore();
+  const { tokenApi } = useAuth();
+
+  const route = window.location;
+
   return (
     <>
       <div className="col md-6">
@@ -36,8 +41,29 @@ export const ProductList = ({ product }: Props) => {
             More..
           </button>
 
-          {userToken && (
-            <button className="btn btn-secondary mx-5 mb-2">Add</button>
+          {tokenApi && (
+            <button
+              className={
+                route.pathname === "/home"
+                  ? "btn btn-secondary mx-5 mb-2"
+                  : userProducts.length > 0
+                  ? "btn btn-danger mx-5 mb-2"
+                  : ""
+              }
+              onClick={() => {
+                if (route.pathname === "/home") {
+                  addProduct(product);
+                } else {
+                  deleteProductCart(product.id);
+                }
+              }}
+            >
+              {route.pathname === "/home"
+                ? "Add"
+                : userProducts.length > 0
+                ? "Delete"
+                : ""}
+            </button>
           )}
         </div>
       </div>

@@ -7,21 +7,11 @@ interface Prop {
 }
 
 export const Layout = ({ children }: Prop) => {
-  const { categories, getProductCategory } = useStore();
-  const { userData } = useAuth();
-
-  const navigate = useNavigate();
+  const { categories, getProductCategory, userProducts } = useStore();
+  const { userData, tokenApi, logout } = useAuth();
 
   const handleClickCategory = (category: number) => {
     getProductCategory(category);
-  };
-
-  const userToken = localStorage.getItem("token");
-
-  const handleLogout = () => {
-    navigate("/");
-    localStorage.removeItem("token");
-    window.location.reload();
   };
 
   return (
@@ -40,13 +30,13 @@ export const Layout = ({ children }: Prop) => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <Link to="/" className="navbar-brand text-white">
+            <Link to="/home" className="navbar-brand text-white">
               Fake Store
             </Link>
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <Link
-                  to="/"
+                  to="/home"
                   className="nav-link active text-white"
                   aria-current="page"
                 >
@@ -79,7 +69,7 @@ export const Layout = ({ children }: Prop) => {
               </div>
             </ul>
             <div className="d-flex">
-              {!userToken ? (
+              {!tokenApi ? (
                 <>
                   <Link to="/login" className="me-2 btn btn-primary">
                     Login
@@ -92,8 +82,8 @@ export const Layout = ({ children }: Prop) => {
                 <>
                   <div className="dropdown-center me-2 ">
                     <button
-                      className="btn btn-secondary btn-sm dropdown-toggle"
                       type="button"
+                      className="btn btn-primary position-relative dropdown-toggle"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
@@ -105,7 +95,11 @@ export const Layout = ({ children }: Prop) => {
                         src={userData.avatar}
                         alt={userData.name}
                       />
+                      <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger mt-2">
+                        {userProducts.length > 0 ? userProducts.length : ""}
+                      </span>
                     </button>
+
                     <ul className="dropdown-menu dropdown-menu-lg-end">
                       <li>
                         <div className="card">
@@ -116,16 +110,20 @@ export const Layout = ({ children }: Prop) => {
                         </div>
                       </li>
                       <li>
-                        <Link to="/profile" className="dropdown-item">Your acount</Link>
+                        <Link to="/profile" className="dropdown-item">
+                          Your acount
+                        </Link>
                       </li>
                       <li>
-                        <a className="dropdown-item">Cart</a>
+                        <Link to="/car-user" className="dropdown-item">
+                          Cart <span>{userProducts.length > 0 ? userProducts.length : 0}</span>
+                        </Link>
                       </li>
                       <li>
                         <Link
                           to="/"
                           className="ms-3 btn btn-secondary"
-                          onClick={() => handleLogout()}
+                          onClick={() => logout()}
                         >
                           Logout
                         </Link>

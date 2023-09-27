@@ -12,6 +12,7 @@ interface StoreContextProps {
     getProductCategory: (category:number) => void,
     userCartProducts: (data:Products[]) => void,
     addProduct: (product: Products) => void,
+    deleteProductCart: (id:number) => void
 
 }
 

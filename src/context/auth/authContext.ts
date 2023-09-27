@@ -4,7 +4,10 @@ import { User } from "../../interfaces/user";
 interface AuthContextProps {
     login: (username:string, password:string) => void,
     message: string,
-    userData: User
+    userData: User,
+    registerUser: ({name, email, password, avatar}:User) => Promise<void>
+    tokenApi: string | undefined
+    logout: () => void
 }
 
 

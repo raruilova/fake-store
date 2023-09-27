@@ -2,9 +2,15 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import { User } from "../interfaces/user";
+import { useAuth } from "../hooks/useAuth";
 
 export const SignIn = () => {
-  const [user, setUser] = useState<User>({} as User);
+  const [user, setUser] = useState<User>({
+    name: "",
+    email: "",
+    password:"",
+    avatar: "https://api.lorem.space/image/face?w=640&h=480&r=867"
+  } as User);
   const navigate = useNavigate();
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUser({
@@ -13,19 +19,18 @@ export const SignIn = () => {
     });
   };
 
-  const { username, email, password } = user;
-
+  const { registerUser } = useAuth();
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (
-      username.trim() === "" ||
-      email.trim() === "" ||
-      password.trim() === ""
+      user.name.trim() === "" ||
+      user.email.trim() === "" ||
+      user.password.trim() === ""
     ) {
       swal("Error!", "All the inputs are required!", "warning");
       return;
     }
-
+    registerUser(user);    
     swal("God Job!", "You have been registered!", "success");
     setUser({} as User);
     navigate("/home");
@@ -40,8 +45,8 @@ export const SignIn = () => {
                 type="text"
                 className="form-control"
                 id="floatingInput"
-                name="username"
-                value={user.username}
+                name="name"
+                value={user.name}
                 onChange={handleChange}
                 required
                 placeholder="Joel Salvatierra"
@@ -56,7 +61,7 @@ export const SignIn = () => {
               <input
                 type="text"
                 className="form-control"
-                id="floatingInput"
+                id="floatingInputEmail"
                 name="email"
                 value={user.email}
                 onChange={handleChange}
