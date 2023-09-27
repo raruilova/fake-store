@@ -18,8 +18,10 @@ export const StoreProvider = ({ children }: Prop) => {
 
   const getAllProducts = async () => {
     try {
-      const { data } = await axiosClient.get<Products[]>("/products?offset=10&limit=10");
-      setProducts(data);     
+      const { data } = await axiosClient.get<Products[]>(
+        "/products?offset=10&limit=10"
+      );
+      setProducts(data);
     } catch (error) {
       console.log(error);
     }
@@ -49,37 +51,22 @@ export const StoreProvider = ({ children }: Prop) => {
     }
   };
 
-  const userCartProducts = (data:Products[]) => {
+  const userCartProducts = (data: Products[]) => {
     setUserProducts(data);
   };
 
-  const addProduct = (product:Products) => {
+  const addProduct = (product: Products) => {
     setUserProducts([...userProducts, product]);
     swal("Good job!", "Your product has been added to your cart!", "success");
-  }
+  };
 
-  const deleteProductCart = (id:number) => {
-    const newProducts:Products[] = userProducts.filter(product => product.id != id);
+  const deleteProductCart = (id: number) => {
+    const newProducts: Products[] = userProducts.filter(
+      (product) => product.id != id
+    );
 
-    swal({
-      title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this imaginary file!",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((willDelete) => {
-      if (willDelete) {
-        swal("Poof! Your product has been deleted!", {
-          icon: "success",
-        });
-        setUserProducts(newProducts);
-      } else {
-        swal("Your product is safe!");
-      }
-    });
-    
-  }
+    setUserProducts(newProducts);
+  };
 
   /*const getUserProduct = () => {
     const arr:Array<Products> = [];
@@ -115,7 +102,7 @@ export const StoreProvider = ({ children }: Prop) => {
         getProductCategory,
         userCartProducts,
         addProduct,
-        deleteProductCart
+        deleteProductCart,
       }}
     >
       {children}
