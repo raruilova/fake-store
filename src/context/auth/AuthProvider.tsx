@@ -51,30 +51,34 @@ export const AuthProvider = ({ children }: Prop) => {
         headers: { Authorization: `Bearer ${tokenApi}` },
       });
       setUserData(data);
-      
     } catch (error) {
       console.log(error);
     }
   };
 
-  const registerUser = async ({name, email, password, avatar}: User):Promise<void> => {
+  const registerUser = async ({
+    name,
+    email,
+    password,
+    avatar,
+  }: User): Promise<void> => {
     try {
       const { data } = await axiosClient.post("/users", {
         name,
         email,
         password,
-        avatar
+        avatar,
       });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const logout = () => {
     Cookie.remove("token");
     window.location.reload();
     window.location.href = "/";
-  }
+  };
 
   useEffect(() => {
     if (tokenApi) {
@@ -83,7 +87,9 @@ export const AuthProvider = ({ children }: Prop) => {
   }, [tokenApi]);
 
   return (
-    <AuthContext.Provider value={{ login, message,registerUser, userData, tokenApi, logout }}>
+    <AuthContext.Provider
+      value={{ login, message, registerUser, userData, tokenApi, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );
